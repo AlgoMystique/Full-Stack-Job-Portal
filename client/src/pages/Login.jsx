@@ -9,44 +9,46 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ email, password, isRegister });
+    // Here you would typically handle authentication logic
   };
 
   return (
-    <div 
-      className="min-h-screen flex flex-col justify-center items-center py-12 bg-cover bg-center relative" 
-      style={{ backgroundImage: "url('https://via.placeholder.com/1920x1080')" }} 
+    <div className="min-h-screen flex flex-col justify-center items-center py-12 bg-cover bg-center relative" 
+      style={{ backgroundImage: `url(${assets.loginBackground || 'https://via.placeholder.com/1920x1080'})` }} 
     >
       {/* Logo at top-left */}
       <img src={assets.logo} alt="Logo" className="absolute top-6 left-6 w-40" />
 
-      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md w-full border-4 border-orange-500">
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          {isRegister ? 'Register' : 'Login'} as Job Seeker
+      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md w-full backdrop-blur-sm backdrop-filter border border-orange-500"> 
+        <h2 className="text-2xl font-semibold text-center mb-6 text-orange-600">
+          {isRegister ? 'Register' : 'Login'} as A Job Seeker
         </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+        <form onSubmit={handleSubmit} className="space-y-4"> 
+          <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-200 focus:border-orange-500 outline-none" 
+              placeholder="Enter your email" // Added placeholder
               required
             />
           </div>
-          <div className="mb-4">
+          <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
             <input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-200 focus:border-orange-500 outline-none" 
+              placeholder="Enter your password" // Added placeholder
               required
             />
           </div>
-          <button type="submit" className="w-full bg-orange-600 text-white py-2 rounded-md">
+          <button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-md transition duration-300"> 
             {isRegister ? 'Register' : 'Login'}
           </button>
         </form>
@@ -54,7 +56,7 @@ const Login = () => {
           <button
             type="button"
             onClick={() => setIsRegister(!isRegister)}
-            className="text-blue-600 hover:text-blue-800"
+            className="text-orange-600 hover:text-orange-800 transition duration-300" 
           >
             {isRegister ? 'Already have an account? Login' : 'Don\'t have an account? Register'}
           </button>
