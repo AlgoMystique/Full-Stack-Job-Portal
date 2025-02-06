@@ -21,7 +21,7 @@ const Login = () => {
 
       <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md w-full backdrop-blur-sm backdrop-filter border border-orange-500"> 
         <h2 className="text-2xl font-semibold text-center mb-6 text-orange-600">
-          {isRegister ? 'Register' : 'Login'} as Job Seeker
+          {isRegister ? 'Register' : 'Login'} as A Job Seeker
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4"> 
           <div>
