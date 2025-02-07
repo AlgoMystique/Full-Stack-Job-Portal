@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { assets } from '../assets/assets'; // Ensure you have your logo in assets
+import { AppContext } from '../context/AppContext'; // Import AppContext
+import axios from 'axios'; // Assuming you are using axios for API calls
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Access the login function from AppContext
+  const { login } = useContext(AppContext);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, password, isRegister });
-    // Here you would typically handle authentication logic
+
+    // Send credentials to backend to get JWT token
+    try {
+      const response = await axios.post('/api/auth/login', { email, password });
+
+      // If login is successful, store the token in localStorage and update context
+      if (response.data.success) {
+        login(response.data.token); // This will call the login function in AppContext
+      } else {
+        toast.error(response.data.message); // Show error if login failed
+      }
+    } catch (error) {
+      toast.error('Login failed. Please try again.');
+    }
   };
 
   return (
@@ -17,7 +35,7 @@ const Login = () => {
       style={{ backgroundImage: `url(${assets.loginBackground || 'https://via.placeholder.com/1920x1080'})` }} 
     >
       {/* Logo at top-left */}
-      <img src={assets.logo} alt="Logo" className="absolute top-6 left-6 w-40" />
+      <img src={assets.logo} alt="Logo" className="absolute top-6 left-6 w-40" /> 
 
       <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md w-full backdrop-blur-sm backdrop-filter border border-orange-500"> 
         <h2 className="text-2xl font-semibold text-center mb-6 text-orange-600">
@@ -32,7 +50,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-200 focus:border-orange-500 outline-none" 
-              placeholder="Enter your email" // Added placeholder
+              placeholder="Enter your email"
               required
             />
           </div>
@@ -44,7 +62,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-200 focus:border-orange-500 outline-none" 
-              placeholder="Enter your password" // Added placeholder
+              placeholder="Enter your password"
               required
             />
           </div>
